@@ -1,0 +1,1 @@
+{"version":3,"file":"student.d.ts","sourceRoot":"","sources":["../../src/models/student.ts"],"names":[],"mappings":"AAAA,OAAO,QAAQ,EAAC,EAAS,QAAQ,EAAC,MAAM,UAAU,CAAC;AAEnD,UAAU,QAAS,SAAQ,QAAQ;IAC/B,QAAQ,EAAC,MAAM,CAAC;IAChB,KAAK,EAAE,MAAM,CAAC;IACd,GAAG,EAAE,MAAM,CAAC;IACZ,KAAK,EAAE,MAAM,CAAC;CACjB;AAWD,eAAO,MAAM,YAAY;;;;OAAqD,CAAA"}

@@ -10,15 +10,19 @@ const port = 3000;
 app.use((req,res,next) => {
 //... validation or anything because this scope will start in any endpoint
 //this is an custome middleware
-
 })
 */
 
-// for get all messages from body like json type
+// CORS middleware
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    
+    // Handle preflight requests
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
     next();
 });
 app.use(express.json())
