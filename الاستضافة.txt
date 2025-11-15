@@ -1,0 +1,191 @@
+sudo apt update && sudo apt upgrade -y
+
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+
+node -v
+
+npm -v
+
+sudo npm install -g pm2
+
+
+sudo apt install -y git
+
+#MongoDB
+
+sudo apt install gnupg curl -y
+curl -fsSL https://pgp.mongodb.com/server-7.0.asc | \
+sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg --dearmor
+
+
+
+echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] \
+https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | \
+sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+
+
+
+sudo apt update
+sudo apt install -y mongodb-org
+
+
+sudo systemctl enable mongod
+sudo systemctl start mongod
+
+
+sudo systemctl status mongod
+
+
+
+mongodump --db students --out backup/
+scp -r backup/students azureuser@20.255.52.51:/home/azureuser/
+scp -i C:\Users\amar7\Downloads\fullstackubuntu_key.pem -r backup/students azureuser@20.255.52.51:/home/azureuser/
+mongorestore --db students /home/azureuser/students
+
+sudo systemctl status mongod
+
+
+mongosh
+
+
+use students
+
+
+
+db.createCollection("students")
+
+
+
+db.students.insertOne({
+  fullName: "Ammar",
+  age: 22,
+  class: "Information Technology"
+})
+
+
+db.students.find().pretty()
+
+mkdir -p ~/apps
+
+clone
+
+cd
+
+npm install
+
+npm run build
+
+chmod +x ./node_modules/.bin/tsc
+
+pm2 start dist/index.js --name "students-api"
+
+
+pm2 list              # عرض التطبيقات
+pm2 logs students-api # عرض السجلات
+pm2 restart students-api
+pm2 stop students-api
+pm2 delete students-api
+
+
+
+pm2 startup
+pm2 save
+
+
+
+
+curl http://localhost:3000/students
+
+
+sudo apt install -y nginx
+
+
+sudo nano /etc/nginx/sites-available/students-api
+
+server {
+    listen 80;
+    server_name 20.2.69.85;  
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+
+
+
+sudo ln -s /etc/nginx/sites-available/students-api /etc/nginx/sites-enabled/
+sudo nginx -t  # اختبار التكوين
+sudo systemctl restart nginx
+
+
+
+sudo ufw allow 'Nginx Full'
+sudo ufw allow OpenSSH
+sudo ufw enable
+
+
+
+الاختبار
+
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw reload
+
+azure open 80
+
+
+
+
+#front end
+clone
+build
+
+
+sudo nano /etc/nginx/sites-available/students-api
+
+
+server {
+    listen 80;
+    server_name 20.2.68.0;
+
+    # Frontend (static files)
+    root /home/azureuser/apps/frontend/dist;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Backend API
+    location /students {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+sudo nginx -t
+sudo systemctl restart nginx
+
+
+#if does not work
+cd /home/azureuser/apps/frontend
+sudo chmod -R 755 /home/azureuser/apps/frontend/dist
+sudo chmod o+rx /home /home/azureuser /home/azureuser/apps /home/azureuser/apps/frontend
+sudo chown -R azureuser:azureuser /home/azureuser/apps/frontend/dist
+ sudo chown -R azureuser:azureuser dist && npm run build && sudo chown -R www-data:www-data dist
+
+
+
+
